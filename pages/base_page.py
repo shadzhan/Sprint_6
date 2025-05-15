@@ -37,3 +37,14 @@ class BasePage:
         return WebDriverWait(self.driver, timeout).until(
             EC.text_to_be_present_in_element_attribute(locator, attribute, value)
         )
+
+    @allure.step("Подождать и проверить, что адрес страницы содержит текст")
+    def wait_for_url_contains(self, text, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(EC.url_contains(text))
+
+    @allure.step("Проверить, что происходит переход на новую страницу")
+    def switch_to_new_window(self, timeout=10):
+        WebDriverWait(self.driver, timeout).until(EC.number_of_windows_to_be(2))
+        new_window = self.driver.window_handles[-1]
+        self.driver.switch_to.window(new_window)
+
