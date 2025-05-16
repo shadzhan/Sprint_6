@@ -7,7 +7,6 @@ class OrderPageLocators:
     SURNAME_INPUT = (By.XPATH, "//input[@placeholder='* Фамилия']")
     ADDRESS_INPUT = (By.XPATH, "//input[@placeholder='* Адрес: куда привезти заказ']")
     METRO_STATION_INPUT = (By.XPATH, "//input[@placeholder='* Станция метро']")
-    STATION_LIST_ITEM = (By.XPATH, "//input[@class='select-search__input' and @value='Фрунзенская']")
     PHONE_INPUT = (By.XPATH, "//input[@placeholder='* Телефон: на него позвонит курьер']")
     NEXT_BUTTON = (By.XPATH, "//button[text()='Далее']")
 
@@ -25,3 +24,7 @@ class OrderPageLocators:
     @staticmethod
     def rental_period_option(period: str):
         return (By.XPATH, f"//div[contains(@class, 'Dropdown-option') and text()='{period}']")
+
+    @staticmethod
+    def STATION_LIST_ITEM(station: str):
+        return (By.XPATH, f"//div[contains(text(), '{station}')]")
