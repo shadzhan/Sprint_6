@@ -3,7 +3,6 @@ import pytest
 from pages.main_page import MainPage
 from pages.order_page import OrderPage
 from data import Data
-from curl import main_site
 from locators.main_page_locators import MainPageLocators
 
 
