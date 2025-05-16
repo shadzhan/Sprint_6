@@ -1,7 +1,7 @@
 import allure
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.common.exceptions import TimeoutException
 
 class BasePage:
     def __init__(self, driver):
@@ -48,3 +48,14 @@ class BasePage:
         new_window = self.driver.window_handles[-1]
         self.driver.switch_to.window(new_window)
 
+    @allure.step("Открыть URL {url}")
+    def open_url(self, url: str):
+        self.driver.get(url)
+
+    @allure.step("Проверить, что URL содержит текст '{text}'")
+    def assert_text_in_url(self, text: str, timeout: int = 10):
+
+        try:
+            WebDriverWait(self.driver, timeout).until(EC.url_contains(text))
+        except TimeoutException as e:
+            raise AssertionError(f"Текст '{text}' не найден в URL ({self.driver.current_url})") from e
