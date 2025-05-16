@@ -1,1 +1,4 @@
-main_site = 'https://qa-scooter.praktikum-services.ru/'
+class Urls:
+
+    MAIN_SITE = 'https://qa-scooter.praktikum-services.ru/'
+    YANDEX_DZEN = 'https://dzen.ru/'
