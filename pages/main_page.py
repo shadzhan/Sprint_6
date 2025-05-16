@@ -1,9 +1,17 @@
 import allure
 from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators
-
+from curl import Urls
 
 class MainPage(BasePage):
+
+    @allure.step("Открыть главную страницу")
+    def open(self, url):
+        self.open_url(Urls.MAIN_SITE)
+
+    @allure.step("Принять куки")
+    def accept_cookies(self):
+        self.click_on_element(MainPageLocators.COOKIE_BUTTON)
 
     @allure.step("Кликнуть на иконку вопроса {number}")
     def click_on_faq_question(self, number):
@@ -46,10 +54,7 @@ class MainPage(BasePage):
     def click_on_yandex_logo_and_verify(self):
         self.click_on_element(MainPageLocators.YANDEX_LOGO)
 
-
     @allure.step("Проверить переход на Дзен в новом окне")
     def verify_yandex_redirect(self):
         self.switch_to_new_window()
-        self.wait_for_url_contains("dzen.ru")
-        current_url = self.driver.current_url
-        assert "dzen.ru" in current_url, f"Ожидался переход на Дзен, текущий URL: {current_url}"
+        self.assert_text_in_url(Urls.YANDEX_DZEN)
