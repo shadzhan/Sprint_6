@@ -1,0 +1,97 @@
+import pytest
+import allure
+from pages.main_page import MainPage
+from pages.order_page import OrderPage
+from data import Data
+
+
+@allure.feature("Заказ самоката")
+class TestOrder:
+    @pytest.mark.parametrize("order", Data.order_test_data)
+    def test_order_flow(self, driver, order):
+        name = order["name"]
+        surname = order["surname"]
+        address = order["address"]
+        station = order["station"]
+        phone = order["phone"]
+        date = order["date"]
+        period = order["period"]
+
+        with allure.step("1. Открытие главной страницы"):
+            main_page = MainPage(driver)
+            main_page.open(Data.main_site)
+
+        with allure.step("2. Принятие куки"):
+            main_page.accept_cookies()
+
+        with allure.step("3. Нажатие на кнопку 'Заказать' в верхней части страницы"):
+            main_page.click_on_order_button_top()
+
+        with allure.step("4. Заполнение формы 'Для кого самокат'"):
+            order_page = OrderPage(driver)
+            order_page.fill_name(name)
+            order_page.fill_surname(surname)
+            order_page.fill_address(address)
+            order_page.fill_metro_station(station)
+            order_page.fill_phone(phone)
+
+        with allure.step("5. Нажатие кнопки 'Далее'"):
+            order_page.click_next_button()
+
+        with allure.step("6. Заполнение формы 'Про аренду'"):
+            order_page.fill_delivery_date(date)
+            order_page.select_rental_period(period)
+
+        with allure.step("7. Нажатие кнопки 'Заказать'"):
+            order_page.click_order_button()
+
+        with allure.step("8. Подтверждение заказа"):
+            order_page.confirm_order()
+
+        with allure.step("9. Проверка подтверждения заказа"):
+            assert "Заказ оформлен" in order_page.get_success_message()
+
+    def test_order_via_bottom_button(self, driver):
+
+        order = Data.bottom_order_data
+        name = order["name"]
+        surname = order["surname"]
+        address = order["address"]
+        station = order["station"]
+        phone = order["phone"]
+        date = order["date"]
+        period = order["period"]
+
+        with allure.step("1. Открытие главной страницы"):
+            main_page = MainPage(driver)
+            main_page.open(Data.main_site)
+
+        with allure.step("2. Принятие куки"):
+            main_page.accept_cookies()
+
+        with allure.step("3. Нажатие на кнопку 'Заказать' в нижней части страницы"):
+            main_page.click_on_order_button_bottom()
+
+        with allure.step("4. Заполнение формы 'Для кого самокат'"):
+            order_page = OrderPage(driver)
+            order_page.fill_name(name)
+            order_page.fill_surname(surname)
+            order_page.fill_address(address)
+            order_page.fill_metro_station(station)
+            order_page.fill_phone(phone)
+
+        with allure.step("5. Нажатие кнопки 'Далее'"):
+            order_page.click_next_button()
+
+        with allure.step("6. Заполнение формы 'Про аренду'"):
+            order_page.fill_delivery_date(date)
+            order_page.select_rental_period(period)
+
+        with allure.step("7. Нажатие кнопки 'Заказать'"):
+            order_page.click_order_button()
+
+        with allure.step("8. Подтверждение заказа"):
+            order_page.confirm_order()
+
+        with allure.step("9. Проверка подтверждения заказа"):
+            assert "Заказ оформлен" in order_page.get_success_message()
